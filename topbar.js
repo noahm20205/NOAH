@@ -159,7 +159,9 @@ body.topbar-modal-open {
     height: 100vh !important;
     border-radius: 0 !important;
     padding-top: max(20px, env(safe-area-inset-top)) !important;
+    padding-right: max(16px, env(safe-area-inset-right)) !important;
     padding-bottom: max(28px, env(safe-area-inset-bottom)) !important;
+    padding-left: max(16px, env(safe-area-inset-left)) !important;
     overflow-y: auto !important;
     overscroll-behavior: contain;
   }
