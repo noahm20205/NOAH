@@ -210,6 +210,19 @@ body.topbar-modal-open {
     const wrap = document.createElement('div');
     wrap.innerHTML = html.trim();
     document.body.insertBefore(wrap.firstChild, document.body.firstChild);
+
+    // env(safe-area-inset-top) can silently resolve to 0 inside a
+    // dynamically-injected <style> on some iOS Safari builds. Measure
+    // the real value via getComputedStyle (always returns actual px)
+    // and apply it as an inline override so the pills always clear the
+    // Dynamic Island regardless of how the browser handles env() in CSS.
+    const probe = document.createElement('div');
+    probe.style.cssText = 'position:fixed;top:env(safe-area-inset-top,0px);left:0;width:0;height:0;pointer-events:none;visibility:hidden;';
+    document.body.appendChild(probe);
+    const sat = parseFloat(window.getComputedStyle(probe).top) || 0;
+    document.body.removeChild(probe);
+    const topbar = document.getElementById('topbar');
+    if (topbar) topbar.style.paddingTop = Math.max(12, sat) + 'px';
   }
 
   // -------- Active-date helpers (match the goals page 6 AM rollover) --------
